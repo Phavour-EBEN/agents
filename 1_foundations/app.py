@@ -9,6 +9,21 @@ import gradio as gr
 
 load_dotenv(override=True)
 
+
+# The usual start
+openrouter_api_key = os.getenv('OPENROUTER_API_KEY')
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+
+
+openai_model="openai/gpt-oss-120b:free"
+z_ai_model="z-ai/glm-4.5-air:free"
+google_gemma="google/gemma-4-31b-it:free"
+deepseek="deepseek/deepseek-v4-flash:free"
+nvidia="nvidia/nemotron-3-super-120b-a12b:free"
+
+load_dotenv(override=True)
+openrouter = OpenAI(base_url=OPENROUTER_BASE_URL, api_key=openrouter_api_key)
+
 def push(text):
     requests.post(
         "https://api.pushover.net/1/messages.json",
@@ -76,14 +91,19 @@ tools = [{"type": "function", "function": record_user_details_json},
 class Me:
 
     def __init__(self):
-        self.openai = OpenAI()
-        self.name = "Ed Donner"
-        reader = PdfReader("me/linkedin.pdf")
-        self.linkedin = ""
-        for page in reader.pages:
+        self.openrouter = OpenAI(base_url=OPENROUTER_BASE_URL, api_key=openrouter_api_key)
+        self.name = "Ebenezer Ainoo"
+        reader1 = PdfReader("me/Profile.pdf")
+        self.profile = ""
+        for page in reader1.pages:
             text = page.extract_text()
             if text:
-                self.linkedin += text
+                self.profile += text
+        reader2 = PdfReader("me/EBEN_ONE.pdf")
+        for page in reader2.pages:
+            text = page.extract_text()
+            if text:
+                self.profile += text
         with open("me/summary.txt", "r", encoding="utf-8") as f:
             self.summary = f.read()
 
@@ -108,7 +128,7 @@ Be professional and engaging, as if talking to a potential client or future empl
 If you don't know the answer to any question, use your record_unknown_question tool to record the question that you couldn't answer, even if it's about something trivial or unrelated to career. \
 If the user is engaging in discussion, try to steer them towards getting in touch via email; ask for their email and record it using your record_user_details tool. "
 
-        system_prompt += f"\n\n## Summary:\n{self.summary}\n\n## LinkedIn Profile:\n{self.linkedin}\n\n"
+        system_prompt += f"\n\n## Summary:\n{self.summary}\n\n## LinkedIn Profile:\n{self.profile}\n\n"
         system_prompt += f"With this context, please chat with the user, always staying in character as {self.name}."
         return system_prompt
     
@@ -116,7 +136,7 @@ If the user is engaging in discussion, try to steer them towards getting in touc
         messages = [{"role": "system", "content": self.system_prompt()}] + history + [{"role": "user", "content": message}]
         done = False
         while not done:
-            response = self.openai.chat.completions.create(model="gpt-4o-mini", messages=messages, tools=tools)
+            response = self.openrouter.chat.completions.create(model=openai_model, messages=messages, tools=tools)
             if response.choices[0].finish_reason=="tool_calls":
                 message = response.choices[0].message
                 tool_calls = message.tool_calls
@@ -130,5 +150,5 @@ If the user is engaging in discussion, try to steer them towards getting in touc
 
 if __name__ == "__main__":
     me = Me()
-    gr.ChatInterface(me.chat, type="messages").launch()
+    gr.ChatInterface(me.chat, type="messages", title="Career Agent").launch()
     

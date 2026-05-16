@@ -1,2 +1,15 @@
-My name is Ed Donner. I'm an entrepreneur, software engineer and data scientist. I'm originally from London, England, but I moved to NYC in 2000.
-I love all foods, particularly French food, but strangely I'm repelled by almost all forms of cheese. I'm not allergic, I just hate the taste! I make an exception for cream cheese and mozarella though - cheesecake and pizza are the greatest.
+I’m Ebenezer Tutu Ainoo, a passionate AI and machine learning
+specialist dedicated to creating impactful solutions for real-world
+challenges. With a degree from the University of Mines and
+Technology, I’ve built expertise in Python, OpenCV, and frameworks
+like TensorFlow, applying them to innovative projects like an
+automated core logging system for mining and an assistive lens
+for the visually impaired. My work blends technical precision with
+a commitment to sustainability, whether in healthcare, mining, or
+accessibility-focused technologies.
+Through hackathons, mentorship programs like IndabaX Ghana, and
+initiatives such as the SPE DSEAT Datathon, I’ve honed my ability to
+collaborate and turn research into practical outcomes. I’m driven by
+a curiosity to push the boundaries of AI and a desire to connect with
+like-minded professionals to drive meaningful impact. Let’s connect
+to explore how we can innovate together!
